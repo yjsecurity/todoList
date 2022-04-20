@@ -1,0 +1,35 @@
+h1 {
+    width: 100%;
+    margin: 50px auto;
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: 800;
+    background-color: aliceblue;
+}
+
+.inputSection {
+    display: flex;
+    justify-content: center;
+}
+
+#todo {
+    font-size: 15px;
+    border: 2px solid rgb(0, 174, 255);
+    border-radius: 5px;
+}
+
+#addBtn {
+    border: 2px solid rgb(160, 207, 248);
+    border-radius: 5px;;
+    background-color: rgb(160, 207, 248);
+}
+
+#addBtn:hover {
+    background-color: rgb(1, 122, 177);
+}
+
+#todo-list {
+    font-size: 15px;
+    background-color:rgb(204, 247, 252);
+}
