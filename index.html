@@ -15,19 +15,29 @@
         <h1>오늘 뭐하지?</h1>
     </header>
 
-    <!--할일 입력하기 -->
-    <div class="inputSection">
-        <div class="input_box">
-            <input type="text" class="inputTxt">
-            <button id="addBtn">+</button>
+    <!-- Body -->
+    <div>
+                
+        <!-- 전체보기/완료전/완료후 -->
+        <div class="selectSection">
+            <input type="button" class="btn-all" value="전체 (0)">
+            <input type="button" class="btn-doing" value="진행중 (0)">
+            <input type="button" class="btn-done" value="완료 (0)">
         </div>
+
+        <!-- 할일 입력하기 -->
+        <div class="inputSection">
+            <div class="input_box">
+                <input type="text" class="inputTxt">
+                <button id="addBtn">+</button>
+            </div>
+        </div>
+
+        <!-- 입력한 list 보여주기 -->
+        <div id="todo-list"></div>
+
     </div>
 
-    <br>
-    <br>
-    
-    <!-- 입력한 list 보여주기 -->
-    <div id="todo-list"></div>
 
 </body>
 </html>
