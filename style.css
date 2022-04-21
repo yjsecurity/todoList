@@ -1,11 +1,65 @@
-h1 {
+header {
     width: 100%;
     margin: 50px auto;
     display: flex;
     justify-content: center;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 800;
     background-color: aliceblue;
+}
+
+.selectSection {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.btn-all {
+    width: 100px;
+    height: 30px;
+    margin-right: 15px;
+    border: 2px solid rgb(1, 39, 177);
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    background-color:rgb(1, 39, 177);
+    color: #fff;
+}
+
+.btn-all:hover {
+    background-color: rgb(112, 139, 233);
+}
+
+.btn-doing {
+    width: 100px;
+    height: 30px;
+    margin-right: 15px;
+    border: 2px solid rgb(1, 122, 177);
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    background-color:rgb(1, 122, 177);
+    color: #fff;
+}
+
+.btn-doing:hover {
+    background-color: rgb(112, 139, 233);
+}
+
+.btn-done {
+    width: 100px;
+    height: 30px;
+    margin-right: 15px;
+    border: 2px solid rgb(17, 178, 252);
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    background-color:rgb(17, 178, 252);
+    color: #fff;
+}
+
+.btn-done:hover {
+    background-color: rgb(112, 139, 233);
 }
 
 .inputSection {
