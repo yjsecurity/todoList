@@ -67,9 +67,9 @@ header {
     justify-content: center;
 }
 
-#todo {
+.inputTxt {
     font-size: 15px;
-    border: 2px solid rgb(0, 174, 255);
+    border: 2px solid rgb(3, 3, 3);
     border-radius: 5px;
 }
 
@@ -83,7 +83,50 @@ header {
     background-color: rgb(1, 122, 177);
 }
 
-#todo-list {
+.todo-list {
+    width: 100%;
+    height: 400px;
+    margin: 20px 0;
+    overflow: auto;
     font-size: 15px;
-    background-color:rgb(204, 247, 252);
+    background-color: rgb(204, 247, 252);
+}
+
+.list {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+input[type="checkbox"] {
+    width: 13px;
+    height: 13px;
+    margin-right: 20px;
+    border: 1px solid rgb(1, 39, 177);
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    background-color: rgb(171, 244, 255);
+}
+
+.listLb {
+    width: 90%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.delBtn {
+    width: 10%;
+    display: inline-block;
+    text-align: end;
+    background-color: transparent;
+    font-size: 13px;
+    border: 2px solid rgb(249, 39, 91);
+    border-radius: 3px;
+    background-color:rgb(249, 39, 91)
+}
+
+.delBtn:hover {
+    background-color: rgb(208, 0, 52);
 }
