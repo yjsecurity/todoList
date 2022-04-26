@@ -1,4 +1,4 @@
-let addBtn = document.querySelector('.addBtn');  // 추가버튼
+let addBtn = document.querySelector('#addBtn');  // 추가버튼
 let inputTxt = document.querySelector('.inputTxt');  // 할일 입력창
 let input_box = document.querySelector('.input_box');  // 할일입력칸
 let delTodo = document.querySelectorAll('.delBtn');  // 할일삭제
@@ -108,7 +108,7 @@ function delList() {
 // 전체조회
 addBtn.addEventListener('click', function() {
 
-    todoList = document.querySelector('.list');
+    todoList = document.querySelectorAll('.list');
 
     todoList.forEach(listEl => {
         listEl.style.display = '';
@@ -118,7 +118,7 @@ addBtn.addEventListener('click', function() {
 // 진행중
 doingBtn.addEventListener('click', function() {
 
-    todoList = document.querySelector('.list');
+    todoList = document.querySelectorAll('.list');
 
     for (let i = 0; i < todoCheck.length; i++) {
 
@@ -126,7 +126,7 @@ doingBtn.addEventListener('click', function() {
             todoList[i].style.display = 'none';
         }
         else {
-            todoList[i].style.display = '';
+            todoList[i].style.display = "";
         }
     }
 });
@@ -139,7 +139,7 @@ doneBtn.addEventListener('click', function() {
     for (let i = 0; i < todoCheck.length; i++) {
 
         if (todoCheck[i].checked === true) {
-            todoList[i].style.display = '';
+            todoList[i].style.display = "";
         }
         else {
             todoList[i].style.display = 'none';
