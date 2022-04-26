@@ -106,7 +106,7 @@ function delList() {
 }
 
 // 전체조회
-addBtn.addEventListener('click', function() {
+allBtn.addEventListener('click', function() {
 
     todoList = document.querySelectorAll('.list');
 
