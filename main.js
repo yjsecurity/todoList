@@ -1,12 +1,14 @@
 let addBtn = document.querySelector('#addBtn');  // 추가버튼
 let inputTxt = document.querySelector('.inputTxt');  // 할일 입력창
-let input_box = document.querySelector('.input_box');  // 할일입력칸
+let todo_list = document.querySelector('.todo-list');  // 할일입력칸
 let delTodo = document.querySelectorAll('.delBtn');  // 할일삭제
 let todoList = document.querySelectorAll('.list');  // 할일 리스트
 let allBtn = document.querySelector('.btn-all');  // 전체보기
 let doingBtn = document.querySelector('.btn-doing');  // 진행중
 let doneBtn = document.querySelector('.btn-done');  // 완료
 let todoCheck = document.querySelector('.todoCheck');  // 할일 체크(완료)
+let allSelectBtn = document.querySelector('.allSelect-btn');  // 전체선택
+let allDelete = document.querySelector('.allDelete');  // 전체삭제
 
 // 리스트 추가 (enter)
 inputTxt.addEventListener('keyup', function(e) {
@@ -37,9 +39,9 @@ function addList() {
         list.setAttribute('class', 'list');
         list.innerHTML = `<label class="listLb"><input type="checkbox" class="todoCheck">${inputTxt.value}</label><button class="delBtn">x</button>`;
 
-        input_box.appendChild(list);
+        todo_list.appendChild(list);
         inputTxt.value = '';
-        inputTxt.getElementsByClassName.borderBottom = '1px solid rgb(163, 155, 155)';
+        inputTxt.style.borderBottom = '1px solid rgb(163, 155, 155)';
 
         if (document.querySelector('.notice')) {
             
@@ -145,4 +147,35 @@ doneBtn.addEventListener('click', function() {
             todoList[i].style.display = 'none';
         }
     }
+});
+
+// 전체선택
+allSelectBtn.addEventListener('click', function() {
+
+    todoCheck = document.querySelectorAll('.todoCheck');
+    listLb = document.querySelectorAll('.listLb');
+
+    if (allSelectBtn.checked === true) {
+        
+        // 전체선택 클릭 시
+        for (let i = 0; i < todoCheck.length; i++) {
+            todoCheck[i].checked = true;
+            listLb[i].style.textDecoration = 'line-through';
+        }
+
+    }
+    else {
+        // 전체선택 해제 시
+        for (let i = 0; i < todoCheck.length; i++) {
+            todoCheck[i].checked = false;
+            listLb[i].style.textDecoration = "";
+        }
+    }
+});
+
+// 전체삭제
+allDelete.addEventListener('click', function() {
+
+    todo_list.innerHTML = '';
+    allSelectBtn.checked = false;
 });
