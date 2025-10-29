@@ -204,16 +204,42 @@ async function addList() { // 📌 async 키워드 추가!
 // 리스트 체크
 function checkList() {
 
+    // 동적으로 생성된 요소를 다시 선택합니다.
     todoCheck = document.querySelectorAll('.todoCheck');
     let listLb = document.querySelectorAll('.listLb');
 
-    todoCheck.forEach((listEl, index) => listEl.addEventListener('click', function() {
-
-        if (listEl.checked === true) {
-            listLb[index].style.textDecoration = 'line-through';
-        }
-        else {
-            listLb[index].style.textDecoration = 'none';
+    // 📌 기존 로직과 다르게, 클릭 이벤트가 발생하면 DB에 상태 업데이트 요청을 보냅니다.
+    todoCheck.forEach((listEl, index) => listEl.addEventListener('click', async function() { // 📌 async 추가!
+        const memoId = listEl.getAttribute('data-id');
+        const isDone = listEl.checked;
+        
+        try {
+            // Function 호출: 해당 ID의 메모 상태 업데이트
+            const response = await fetch(`/.netlify/functions/update-memo`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: memoId, is_done: isDone }),
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                // DB 업데이트 성공 시, 화면 텍스트 스타일 변경
+                if (isDone === true) {
+                    listLb[index].style.textDecoration = 'line-through';
+                } else {
+                    listLb[index].style.textDecoration = 'none';
+                }
+            } else {
+                // DB 업데이트 실패 시, 체크 상태 되돌리기 및 에러 메시지
+                listEl.checked = !isDone; // 체크 상태 되돌리기
+                console.error("메모 상태 업데이트 실패:", data.message);
+                alert("메모 상태 업데이트에 실패했습니다.");
+            }
+        } catch (error) {
+            // 서버 연결 오류 시, 체크 상태 되돌리기
+            listEl.checked = !isDone; 
+            console.error("업데이트 Function 호출 오류:", error);
+            alert("서버 연결 오류로 메모 상태 업데이트에 실패했습니다.");
         }
 
         // listCount();
@@ -223,12 +249,31 @@ function checkList() {
 // 리스트 삭제;
 function delList() {
 
+    // 동적으로 생성된 요소를 다시 선택합니다.
     delTodo = document.querySelectorAll('.delBtn');
-    todoList = document.querySelectorAll('.list');
+    
+    // 📌 기존 로직과 다르게, 클릭된 버튼에 해당하는 메모 ID를 사용하여 DB에 삭제 요청을 보냅니다.
+    delTodo.forEach(delEl => delEl.addEventListener('click', async function() { // 📌 async 추가!
+        const memoId = delEl.getAttribute('data-id');
 
-    delTodo.forEach((delEl, index) => delEl.addEventListener('click', function() {
+        try {
+            // Function 호출: 해당 ID의 메모 삭제
+            const response = await fetch(`/.netlify/functions/delete-memo/${memoId}`, {
+                method: 'DELETE',
+            });
+            const data = await response.json();
 
-        todoList[index].remove();
+            if (data.success) {
+                // DB에서 성공적으로 삭제되면, 화면에서도 삭제
+                delEl.closest('.list').remove();
+            } else {
+                console.error("메모 삭제 실패:", data.message);
+                alert("메모 삭제에 실패했습니다.");
+            }
+        } catch (error) {
+            console.error("삭제 Function 호출 오류:", error);
+            alert("서버 연결 오류로 메모 삭제에 실패했습니다.");
+        }
     }))
 
     // listCount();
