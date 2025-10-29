@@ -1,12 +1,16 @@
 .todoBox {
-    width: 800px;
-    height: 800px;
-    margin: 80px auto;
+    /* (1) 최대 너비를 지정하여 데스크톱에서 너무 커지지 않게 함 */
+    max-width: 800px; 
+    /* (2) 모바일 환경에서는 90% 너비 사용 */
+    width: 90%; 
+    /* (3) 높이는 내용에 따라 자동으로 늘어나게 설정 */
+    min-height: 500px; /* 최소 높이 설정 (선택 사항) */
+    height: auto; 
+    margin: 40px auto; /* 상하 마진을 줄여 모바일에서 스크롤 부담 감소 */
     border: 3px solid rgb(203, 229, 252);
     border-radius: 10px;
     background-color: aliceblue;
 }
-
 header {
     width: 100%;
     margin: 50px auto;
@@ -170,6 +174,33 @@ input[type="checkbox"]:checked {
     color: rgb(249,18, 75);
 }
 
+/* ---- 모바일 환경 최적화 (Max-width 480px 이하) ---- */
+@media screen and (max-width: 480px) {
+    
+    /* 헤더 글자 크기 조정 */
+    header h1 {
+        font-size: 24px;
+        margin: 30px auto;
+    }
+
+    /* 버튼 섹션 조정 */
+    .selectSection {
+        display: block; /* 버튼을 가로가 아닌 세로로 배치 */
+        text-align: center;
+    }
+    
+    /* 각 버튼 너비 확장 */
+    .btn-all, .btn-doing, .btn-done {
+        width: 80%; /* 버튼을 넓게 */
+        margin: 5px auto; /* 세로 마진 추가 */
+        display: block;
+    }
+
+    /* 입력창 조정 */
+    .inputTxt {
+        width: 75%;
+    }
+}
 .notice {
     color:rgb(164, 2, 43);
     font-size: 10px;
