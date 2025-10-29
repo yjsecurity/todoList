@@ -16,48 +16,50 @@
 
 </head>
 <body>
-
-  
-    <!-- 투두리스트 박스 -->
+    
     <div class="todoBox">
 
-        <!-- Header -->
-        <header>
-            <h1>오늘 뭐하지?🤔</h1>
-        </header>
-                
-        <div>
-            <!-- 전체보기/완료전/완료후 -->
-            <div class="selectSection">
-                <input type="button" class="btn-all" value="전체">
-                <input type="button" class="btn-doing" value="진행중">
-                <input type="button" class="btn-done" value="완료">
-            </div>
-            
-            <!-- 할일 입력하기 -->
-            <div class="inputSection">
-
-                <!--할일 입력 box-->
-                <div class="inputBox">
-                    <div class="input_box">
-                        <input type="text" class="inputTxt">
-                        <button id="addBtn">+</button>
-                    </div>
-                </div>
-                
-                <!--전체선택/전체삭제-->
-                <div class="allSelect">
-                    <label class="allCheck"><input type="checkbox" class="allSelect-btn">전체선택</label>
-                    <a href="javascript:void(0)" class="allDelete">전체삭제</a>
-                </div>
-
-                <!-- 입력한 list 보여주기 -->
-                <div class="todo-list"></div>
-            </div>
+        <div id="password-screen" style="text-align: center; padding-top: 100px;">
+            <h2>개인 메모장</h2>
+            <input type="password" id="secret-key" placeholder="비밀번호를 입력하세요">
+            <button id="login-manual-button">접속</button>
+            <p id="error-message" style="color: red; display: none;">비밀번호가 올바르지 않습니다.</p>
         </div>
         
+        <div id="memo-app-container" style="display: none;">
+            
+            <header>
+                <h1>오늘 뭐하지?🤔</h1>
+            </header>
+                    
+            <div>
+                <div class="selectSection">
+                    <input type="button" class="btn-all" value="전체">
+                    <input type="button" class="btn-doing" value="진행중">
+                    <input type="button" class="btn-done" value="완료">
+                </div>
+                
+                <div class="inputSection">
+
+                    <div class="inputBox">
+                        <div class="input_box">
+                            <input type="text" class="inputTxt">
+                            <button id="addBtn">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="allSelect">
+                        <label class="allCheck"><input type="checkbox" class="allSelect-btn">전체선택</label>
+                        <a href="javascript:void(0)" class="allDelete">전체삭제</a>
+                    </div>
+
+                    <div class="todo-list"></div>
+                </div>
+                
+            </div>
+            
+        </div>
     </div>
-
-
+    
 </body>
 </html>
