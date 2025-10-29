@@ -137,33 +137,54 @@ addBtn.addEventListener('click', function() {
 })
 
 // inputTxt 입력창 null값 판단
-function addList() {
+async function addList() { // 📌 async 키워드 추가!
 
     if (inputTxt.value !== '') {
+        const memoText = inputTxt.value; // 입력 내용을 변수에 저장
 
-        // list를 출력할 <div> 요소 생성
-        let list = document.createElement('div');
-        list.setAttribute('class', 'list');
-        list.innerHTML = `<label class="listLb"><input type="checkbox" class="todoCheck">${inputTxt.value}</label><button class="delBtn">x</button>`;
+        // 1. Netlify Function을 호출하여 DB에 저장
+        try {
+            const response = await fetch('/.netlify/functions/add-memo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: memoText }),
+            });
+            const data = await response.json();
 
-        todo_list.appendChild(list);
-        inputTxt.value = '';
-        inputTxt.style.borderBottom = '1px solid rgb(163, 155, 155)';
+            if (!data.success) {
+                console.error("메모 저장 실패:", data.message);
+                alert("메모 저장에 실패했습니다.");
+                return; // 저장 실패 시 UI 업데이트 중단
+            }
 
-        if (document.querySelector('.notice')) {
+            // 2. 저장 성공 시, DB ID를 포함하여 list를 출력할 <div> 요소 생성
+            let list = document.createElement('div');
+            list.setAttribute('class', 'list');
             
-            // 경고메세지 <div>가 생성되는 경우 - 요소 삭제(removeChild)
-            addBox = document.querySelector('.inputSection');
-            let notice = document.querySelector('.notice');
-            addBox.removeChild(notice);
-        }
-        else {
-            // 경고 메시지 <div>가 생성되어있지 않은 경우
+            // 📌 data-id 속성에 DB에서 받은 ID를 추가합니다!
+            list.innerHTML = `<label class="listLb"><input type="checkbox" class="todoCheck" data-id="${data.id}">${memoText}</label><button class="delBtn" data-id="${data.id}">x</button>`;
+
+            todo_list.appendChild(list);
+            inputTxt.value = '';
+            inputTxt.style.borderBottom = '1px solid rgb(163, 155, 155)';
+
+            // 경고 메시지 처리 로직... (나머지는 기존과 동일)
+            if (document.querySelector('.notice')) {
+                addBox = document.querySelector('.inputSection');
+                let notice = document.querySelector('.notice');
+                addBox.removeChild(notice);
+            }
+            // 3. UI 업데이트 후 이벤트 리스너 다시 연결
+            checkList();
+            delList();
+            
+        } catch (error) {
+            console.error("DB Function 호출 오류:", error);
+            alert("서버 연결 오류로 메모 저장에 실패했습니다.");
         }
     }
     else {
-
-        // 텍스트 미입력시 경고 메세지 출력할 <div> 요소 생성
+        // 텍스트 미입력시 경고 메세지 출력 로직... (기존과 동일)
         let noticeEl = document.createElement('div');
         noticeEl.setAttribute('class', 'notice');
         noticeEl.innerHTML = '<span>내용을 입력해주세요</span>';
@@ -180,7 +201,6 @@ function addList() {
         }
     }
 }
-
 // 리스트 체크
 function checkList() {
 
