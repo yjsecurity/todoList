@@ -56,6 +56,51 @@ secretKeyInput.addEventListener('keypress', function(e) {
         checkPassword();
     }
 });
+
+// 📌 DB에서 메모를 로드하고 화면에 표시하는 함수
+async function loadMemos() {
+    console.log('메모를 불러오는 중...');
+    
+    try {
+        // [get-memos.js] Function 호출 (DB에서 데이터 가져옴)
+        const response = await fetch('/.netlify/functions/get-memos');
+        const data = await response.json();
+
+        if (data.success && data.memos) {
+            
+            todo_list.innerHTML = ''; // 기존 목록 비우기 (UI 정리)
+            
+            data.memos.forEach(memo => {
+                // DB 데이터를 기반으로 HTML 요소 생성
+                const list = document.createElement('div');
+                list.setAttribute('class', 'list');
+                
+                const checked = memo.is_done ? 'checked' : '';
+                const textDecoration = memo.is_done ? 'line-through' : 'none';
+                
+                list.innerHTML = `
+                    <label class="listLb" style="text-decoration: ${textDecoration};">
+                        <input type="checkbox" class="todoCheck" data-id="${memo.id}" ${checked}>
+                        ${memo.text}
+                    </label>
+                    <button class="delBtn" data-id="${memo.id}">x</button>
+                `;
+                todo_list.appendChild(list);
+            });
+            
+            // 메모 로드 후 이벤트 리스너를 다시 연결해야 합니다.
+            // (이 함수들은 메모를 동적으로 생성한 후 호출되어야 작동합니다.)
+            checkList(); 
+            delList();   
+            
+        } else {
+            console.error('메모 로드 실패:', data.message);
+        }
+
+    } catch (error) {
+        console.error("메모 로드 Function 호출 오류:", error);
+    }
+}
 // --------------------------------------------------------
 
 // 이 아래에 기존의 모든 main.js (투두리스트) 코드가 와야 합니다.
@@ -63,7 +108,6 @@ secretKeyInput.addEventListener('keypress', function(e) {
 
 let addBtn = document.querySelector('#addBtn');  // 추가버튼
 let inputTxt = document.querySelector('.inputTxt');  // 할일 입력창
-let todo_list = document.querySelector('.todo-list');  // 할일입력칸
 let delTodo = document.querySelectorAll('.delBtn');  // 할일삭제
 let todoList = document.querySelectorAll('.list');  // 할일 리스트
 let allBtn = document.querySelector('.btn-all');  // 전체보기
