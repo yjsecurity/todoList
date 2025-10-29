@@ -1,3 +1,66 @@
+// main.js 상단에 추가: 로그인 Function 호출 로직
+
+const passwordScreen = document.querySelector('#password-screen');
+const secretKeyInput = document.querySelector('#secret-key');
+const loginManualButton = document.querySelector('#login-manual-button');
+const errorMessage = document.querySelector('#error-message');
+const memoAppContainer = document.querySelector('#memo-app-container');
+const todo_list = document.querySelector('.todo-list'); // 기존 투두리스트 영역
+
+// ------------------- 핵심 로그인 함수 -------------------
+async function checkPassword() {
+    const enteredPassword = secretKeyInput.value;
+    errorMessage.style.display = 'none'; // 에러 메시지 초기화
+    
+    // Netlify Function 호출
+    try {
+        const response = await fetch('/.netlify/functions/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            // 사용자 입력 비밀번호를 Function으로 전송
+            body: JSON.stringify({ password: enteredPassword }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // 로그인 성공: UI 변경
+            passwordScreen.style.display = 'none';
+            memoAppContainer.style.display = 'block';
+            console.log('로그인 성공. 메모 로드를 시작합니다.');
+            
+            // 📌 [다음 단계 연결] 로그인 성공 후 메모 로드 함수 호출
+            loadMemos(); 
+
+        } else {
+            // 로그인 실패
+            errorMessage.textContent = data.message || '비밀번호가 올바르지 않습니다.';
+            errorMessage.style.display = 'block';
+            secretKeyInput.value = '';
+        }
+    } catch (error) {
+        errorMessage.textContent = '인증 서버 연결 오류.';
+        errorMessage.style.display = 'block';
+        console.error("Function 호출 오류:", error);
+    }
+}
+
+// '접속' 버튼 클릭 이벤트 리스너
+loginManualButton.addEventListener('click', checkPassword);
+
+// Enter 키 이벤트
+secretKeyInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        checkPassword();
+    }
+});
+// --------------------------------------------------------
+
+// 이 아래에 기존의 모든 main.js (투두리스트) 코드가 와야 합니다.
+// ... (기존 main.js 코드)
+
 let addBtn = document.querySelector('#addBtn');  // 추가버튼
 let inputTxt = document.querySelector('.inputTxt');  // 할일 입력창
 let todo_list = document.querySelector('.todo-list');  // 할일입력칸
